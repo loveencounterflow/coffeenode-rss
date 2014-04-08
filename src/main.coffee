@@ -29,53 +29,53 @@ parser_options            =
   explicitArray:            yes
 parser                    = new XML2JS.Parser parser_options
 
-options =
-  url:      'https://gueltiger-gutschein.de/tag/vodafone,berlin/feed'
 
-
-f = ->
+#-----------------------------------------------------------------------------------------------------------
+@read = ( request_options, handler ) ->
+  Z = []
   #---------------------------------------------------------------------------------------------------------
-  mk_request options, ( error, response, body ) ->
-    throw error if error?
-    throw new Error "something went wrong" unless response.statusCode is 200
+  mk_request request_options, ( error, response, body ) ->
+    return handler error if error?
+    return handler new Error "something went wrong" unless response.statusCode is 200
     parser.parseString body, ( error, json ) =>
-      throw error if error?
+      return handler error if error?
       # debug json
-      #-----------------------------------------------------------------------------------------------------
-      BAP.walk_containers_crumbs_and_values json, ( error, container, crumbs, value ) =>
-        throw error if error?
-        #...................................................................................................
-        if crumbs is null
-          log 'over'
-          return
-        #...................................................................................................
-        locator           = '/' + crumbs.join '/'
-        # in case you want to mutate values in a container, use:
-        [ head..., key, ] = crumbs
-        if TYPES.isa_text value
-          value = value[ .. 100 ]
-        else
-          value = rpr value
-        log ( TRM.grey "#{locator}:" ), ( TRM.gold value )
+      # #-----------------------------------------------------------------------------------------------------
+      # BAP.walk_containers_crumbs_and_values json, ( error, container, crumbs, value ) =>
+      #   return handler error if error?
+      #   #...................................................................................................
+      #   if crumbs is null
+      #     log 'over'
+      #     return
+      #   #...................................................................................................
+      #   locator           = '/' + crumbs.join '/'
+      #   # in case you want to mutate values in a container, use:
+      #   [ head..., key, ] = crumbs
+      #   if TYPES.isa_text value
+      #     value = value[ .. 100 ]
+      #   else
+      #     value = rpr value
+      #   log ( TRM.grey "#{locator}:" ), ( TRM.gold value )
       #-----------------------------------------------------------------------------------------------------
       for channel in json[ 'channel' ]
         # debug channel
+        Z.push ( entry = [] )
         for item in channel[ 'item' ]
-          date_txt    = item[ 'pubDate'           ][ 0 ]
-          title       = item[ 'title'             ][ 0 ]
-          link        = item[ 'link'              ][ 0 ]
-          summary     = item[ 'description'       ][ 0 ]
-          content     = item[ 'content:encoded'   ][ 0 ]
-          tags        = item[ 'category'          ]
-          debug 'date_txt:    ', date_txt
-          debug 'title:       ', title
-          debug 'link:        ', link
-          debug 'summary:     ', summary
-          debug 'content:     ', content
-          debug 'tags:        ', tags
+          entry[ 'date_txt' ] = item[ 'pubDate'           ][ 0 ]
+          entry[ 'title'    ] = item[ 'title'             ][ 0 ]
+          entry[ 'link'     ] = item[ 'link'              ][ 0 ]
+          entry[ 'summary'  ] = item[ 'description'       ][ 0 ]
+          entry[ 'content'  ] = item[ 'content:encoded'   ][ 0 ]
+          entry[ 'tags'     ] = item[ 'category'          ]
+          # debug 'date_txt:    ', date_txt
+          # debug 'title:       ', title
+          # debug 'link:        ', link
+          # debug 'summary:     ', summary
+          # debug 'content:     ', content
+          # debug 'tags:        ', tags
+      #-----------------------------------------------------------------------------------------------------
+      handler null, Z
 
 
-
-f()
 
 
