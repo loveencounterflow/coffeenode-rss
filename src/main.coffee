@@ -41,6 +41,7 @@ parser                    = new XML2JS.Parser parser_options
   for tag in tags
     tag = tag.toLowerCase()
     tag = tag.trim()
+    continue if tag is ''
     continue if seen_tags[ tag ]?
     seen_tags[ tag ] = tag
     R.push tag
