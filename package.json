@@ -1,0 +1,27 @@
+{
+  "name": "coffeenode-rss",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loveencounterflow/coffeenode-rss"
+  },
+  "bugs": {
+    "url": "https://github.com/loveencounterflow/coffeenode-rss/issues"
+  },
+  "readme": "RSS XML-blahfoo to liteweight JSON / HTML converter middleware",
+  "readmeFilename": "README.md",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "xml2js": "~0.4.2",
+    "request": "~2.34.0",
+    "coffeenode-types": "~0.1.1",
+    "coffeenode-bitsnpieces": "0.0.20",
+    "coffee-script": "~1.7.1"
+  }
+}
