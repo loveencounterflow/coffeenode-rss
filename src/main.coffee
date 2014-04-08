@@ -75,6 +75,7 @@ parser                    = new XML2JS.Parser parser_options
       #     value = rpr value
       #   log ( TRM.grey "#{locator}:" ), ( TRM.gold value )
       #-----------------------------------------------------------------------------------------------------
+      warn json[ 'channel' ].length
       for channel in json[ 'channel' ]
         # debug channel
         Z.push ( entry = [] )
