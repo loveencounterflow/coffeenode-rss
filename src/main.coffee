@@ -84,13 +84,10 @@ parser                    = new XML2JS.Parser parser_options
           entry[ 'link'     ] = item[ 'link'              ][ 0 ]
           entry[ 'summary'  ] = item[ 'description'       ][ 0 ]
           entry[ 'content'  ] = item[ 'content:encoded'   ][ 0 ]
-          entry[ 'tags'     ] = item[ 'category'          ]
-          # debug 'date_txt:    ', date_txt
-          # debug 'title:       ', title
-          # debug 'link:        ', link
-          # debug 'summary:     ', summary
-          # debug 'content:     ', content
-          # debug 'tags:        ', tags
+          entry[ 'tags'     ] = tags = {}
+          #.................................................................................................
+          for tag in @normalize_tags item[ 'category' ]
+            tags[ tag ] = 1
       #-----------------------------------------------------------------------------------------------------
       handler null, Z
 
