@@ -52,7 +52,7 @@ parser                    = new XML2JS.Parser parser_options
 @read = ( request_options, handler ) ->
   Z = []
   #---------------------------------------------------------------------------------------------------------
-  mk_request request_options, ( error, response, body ) ->
+  mk_request request_options, ( error, response, body ) =>
     return handler error if error?
     return handler new Error "something went wrong" unless response.statusCode is 200
     parser.parseString body, ( error, json ) =>
