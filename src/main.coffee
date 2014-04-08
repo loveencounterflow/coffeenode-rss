@@ -29,6 +29,23 @@ parser_options            =
   explicitArray:            yes
 parser                    = new XML2JS.Parser parser_options
 
+#-----------------------------------------------------------------------------------------------------------
+@normalize_tags = ( tags ) ->
+  ### Given a list of strings, return a 'typographically' sorted list where
+    * all strings are lower-cased,
+    * all strings are trimmed of peripheral whitespace,
+    * all empty, blank and repeated strings are removed.
+  ###
+  R         = []
+  seen_tags = {}
+  for tag in tags
+    tag = tag.toLowerCase()
+    tag = tag.trim()
+    continue if seen_tags[ tag ]?
+    seen_tags[ tag ] = tag
+    R.push tag
+  R.sort()
+  return R
 
 #-----------------------------------------------------------------------------------------------------------
 @read = ( request_options, handler ) ->
