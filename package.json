@@ -1,6 +1,6 @@
 {
   "name": "coffeenode-rss",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "lib/main.js",
   "scripts": {
@@ -19,7 +19,7 @@
   "license": "ISC",
   "devDependencies": {
     "coffee-script": "~1.7.1"
-    },
+  },
   "dependencies": {
     "xml2js": "~0.4.2",
     "request": "~2.34.0",
