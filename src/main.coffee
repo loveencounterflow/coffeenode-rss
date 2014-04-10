@@ -54,10 +54,13 @@ parser                    = new XML2JS.Parser parser_options
   #---------------------------------------------------------------------------------------------------------
   mk_request request_options, ( error, response, body ) =>
     return handler error if error?
+    # warn request_options
+    # warn body
+    # warn response.statusCode
+    return handler null, Z if response.statusCode is 404 # in case of invalid tags
     return handler new Error "something went wrong" unless response.statusCode is 200
     parser.parseString body, ( error, json ) =>
       return handler error if error?
-      # debug json
       # #-----------------------------------------------------------------------------------------------------
       # BAP.walk_containers_crumbs_and_values json, ( error, container, crumbs, value ) =>
       #   return handler error if error?
@@ -75,11 +78,9 @@ parser                    = new XML2JS.Parser parser_options
       #     value = rpr value
       #   log ( TRM.grey "#{locator}:" ), ( TRM.gold value )
       #-----------------------------------------------------------------------------------------------------
-      warn json[ 'channel' ].length
       for channel in json[ 'channel' ]
-        # debug channel
-        Z.push ( entry = [] )
         for item in channel[ 'item' ]
+          Z.push ( entry = [] )
           entry[ 'date_txt' ] = item[ 'pubDate'           ][ 0 ]
           entry[ 'title'    ] = item[ 'title'             ][ 0 ]
           entry[ 'link'     ] = item[ 'link'              ][ 0 ]
@@ -91,6 +92,8 @@ parser                    = new XML2JS.Parser parser_options
             tags[ tag ] = 1
       #-----------------------------------------------------------------------------------------------------
       handler null, Z
+  #---------------------------------------------------------------------------------------------------------
+  return null
 
 
 
