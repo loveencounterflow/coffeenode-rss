@@ -1,7 +1,7 @@
 {
   "name": "coffeenode-rss",
-  "version": "0.0.7",
-  "description": "",
+  "version": "0.0.6",
+  "description": "RSS XML-blahfoo to liteweight JSON / HTML converter middleware",
   "main": "lib/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -24,6 +24,10 @@
     "xml2js": "~0.4.x",
     "coffeenode-bitsnpieces": "0.0.x",
     "request": "2.34.x",
-    "coffeenode-types": "0.1.x"
-  }
+    "coffeenode-types": "~0.1.1",
+    "coffeenode-trm": "~0.1.14"
+  },
+  "homepage": "https://github.com/loveencounterflow/coffeenode-rss",
+  "_id": "coffeenode-rss@0.0.6",
+  "_from": "coffeenode-rss@~0.0.0"
 }

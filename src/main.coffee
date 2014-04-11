@@ -50,37 +50,19 @@ parser                    = new XML2JS.Parser parser_options
 
 #-----------------------------------------------------------------------------------------------------------
 @read = ( request_options, handler ) ->
-  Z = []
   #---------------------------------------------------------------------------------------------------------
   mk_request request_options, ( error, response, body ) =>
     return handler error if error?
-    # warn request_options
-    # warn body
-    # warn response.statusCode
-    return handler null, Z if response.statusCode is 404 # in case of invalid tags
     return handler new Error "something went wrong" unless response.statusCode is 200
     parser.parseString body, ( error, json ) =>
       return handler error if error?
-      # #-----------------------------------------------------------------------------------------------------
-      # BAP.walk_containers_crumbs_and_values json, ( error, container, crumbs, value ) =>
-      #   return handler error if error?
-      #   #...................................................................................................
-      #   if crumbs is null
-      #     log 'over'
-      #     return
-      #   #...................................................................................................
-      #   locator           = '/' + crumbs.join '/'
-      #   # in case you want to mutate values in a container, use:
-      #   [ head..., key, ] = crumbs
-      #   if TYPES.isa_text value
-      #     value = value[ .. 100 ]
-      #   else
-      #     value = rpr value
-      #   log ( TRM.grey "#{locator}:" ), ( TRM.gold value )
       #-----------------------------------------------------------------------------------------------------
-      for channel in json[ 'channel' ]
+      # warn "found #{json[ 'channel' ].length} channel(s)"
+      Z = []
+      for channel, channel_idx in json[ 'channel' ]
+        # warn "found #{channel[ 'item' ].length} entries in channel #{channel_idx}"
         for item in channel[ 'item' ]
-          Z.push ( entry = [] )
+          Z.push ( entry = {} )
           entry[ 'date_txt' ] = item[ 'pubDate'           ][ 0 ]
           entry[ 'title'    ] = item[ 'title'             ][ 0 ]
           entry[ 'link'     ] = item[ 'link'              ][ 0 ]
@@ -91,10 +73,14 @@ parser                    = new XML2JS.Parser parser_options
           for tag in @normalize_tags item[ 'category' ]
             tags[ tag ] = 1
       #-----------------------------------------------------------------------------------------------------
+      # warn "collected #{Z.length} entries"
       handler null, Z
+
+#-----------------------------------------------------------------------------------------------------------
+@filter_for_tags = ( rss, tags ) ->
   #---------------------------------------------------------------------------------------------------------
-  return null
-
-
-
+  return rss.filter ( entry ) =>
+    for tag in tags
+      return false unless entry[ 'tags' ][ tag ]?
+    return true
 
