@@ -1,6 +1,6 @@
 {
   "name": "coffeenode-rss",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "RSS XML-blahfoo to liteweight JSON / HTML converter middleware",
   "main": "lib/main.js",
   "scripts": {
